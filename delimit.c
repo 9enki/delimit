@@ -14,28 +14,34 @@ void getDelimitted(char* input, char result[][BUFFER_COLUMN_SIZE])
 
     initialize_array(result);
     previous_ptr = input;
-    current_ptr = strchr(previous_ptr, delimiter) + 1;
+    current_ptr = strchr(previous_ptr, delimiter);
     if (current_ptr != NULL) {
-        for (j = 0; j < (current_ptr - previous_ptr - 1); ++j) {
-            result[row][j] = previous_ptr[j];
-        }
-        ++row;
-        while (current_ptr != NULL) {
-            previous_ptr = current_ptr;
-            current_ptr = strchr(previous_ptr, delimiter);
-            if (current_ptr != NULL) {
-                current_ptr++;
-                for (j = 0; j < current_ptr - previous_ptr - 1; ++j) {
-                    result[row][j] = previous_ptr[j];
-                }
-                row++;
+        current_ptr++;
+        if (current_ptr != NULL) {
+            for (j = 0; j < (current_ptr - previous_ptr - 1); ++j) {
+                result[row][j] = previous_ptr[j];
             }
-            else {
-                for (j = 0; j < input + strlen(input) - previous_ptr; ++j) {
-                    result[row][j] = previous_ptr[j];
+            ++row;
+            while (current_ptr != NULL) {
+                previous_ptr = current_ptr;
+                current_ptr = strchr(previous_ptr, delimiter);
+                if (current_ptr != NULL) {
+                    current_ptr++;
+                    for (j = 0; j < current_ptr - previous_ptr - 1; ++j) {
+                        result[row][j] = previous_ptr[j];
+                    }
+                    row++;
+                }
+                else {
+                    for (j = 0; j < input + strlen(input) - previous_ptr; ++j) {
+                        result[row][j] = previous_ptr[j];
+                    }
                 }
             }
         }
+    }
+    else {
+        return;
     }
 }
 
